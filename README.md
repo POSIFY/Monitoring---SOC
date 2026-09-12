@@ -74,3 +74,7 @@ echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4
 sudo tee /etc/apt/sources.list.d/wazuh.list
 ```
 <img width="913" height="90" alt="image" src="https://github.com/user-attachments/assets/ac65226f-242d-4f6f-9751-d5f48615d631" />
+
+8. Then run updates : sudo apt-get update
+
+9. 
