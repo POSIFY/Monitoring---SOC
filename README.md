@@ -77,4 +77,67 @@ sudo tee /etc/apt/sources.list.d/wazuh.list
 
 8. Then run updates : sudo apt-get update
 
-9. 
+9. Install the Wazuh indexer:
+```
+sudo apt-get install wazuh-indexer=4.14.7-1 -y
+```
+<img width="1251" height="321" alt="image" src="https://github.com/user-attachments/assets/31c74c8f-1301-426b-bdab-03971c69fc46" />
+
+10. Confirm the installation.
+```
+dpkg -l | grep wazuh-indexer
+```
+<img width="1810" height="203" alt="image" src="https://github.com/user-attachments/assets/3a78d264-def2-4636-979d-738a0ba298ea" />
+
+11. Configure the Wazuh Indexer
+```
+sudo nano /etc/wazuh-indexer/opensearch.yml
+```
+<img width="1544" height="208" alt="image" src="https://github.com/user-attachments/assets/c88e28eb-614f-4668-83f4-f63e536c19b6" />
+
+12. Deploy the certificates
+
+This is where your previously generated certificates become important.
+Make a directory for the certificates under /etc as the wazuh installation guide states:
+```
+1. sudo mkdir -p /etc/wazuh-indexer/certs
+2. # Copy the certificates from their current location into the /etc/wazuh-indexer/certs
+* sudo cp ~/wazuh-certificates/node-1.pem \
+/etc/wazuh-indexer/certs/indexer.pem
+
+* sudo cp ~/wazuh-certificates/node-1-key.pem \
+/etc/wazuh-indexer/certs/indexer-key.pem
+
+* sudo cp ~/wazuh-certificates/admin.pem \
+/etc/wazuh-indexer/certs/admin.pem
+
+* sudo cp ~/wazuh-certificates/admin-key.pem \
+/etc/wazuh-indexer/certs/admin-key.pem
+
+* sudo cp ~/wazuh-certificates/root-ca.pem \
+/etc/wazuh-indexer/certs/root-ca.pem
+```
+
+<img width="1222" height="665" alt="image" src="https://github.com/user-attachments/assets/44081e99-53cc-44b9-8d45-3891e8f433fa" />
+
+* Confirm the certificates all exist in the directory
+<img width="1311" height="348" alt="image" src="https://github.com/user-attachments/assets/2df9cb29-ce82-4cca-901b-4385ea8e82ff" />
+
+
+13. Set Permissions for the certificates - run these commands
+```
+1. sudo chmod 500 /etc/wazuh-indexer/certs
+2. sudo chmod 400 /etc/wazuh-indexer/certs/*
+3. sudo chown -R wazuh-indexer:wazuh-indexer /etc/wazuh-indexer/certs
+
+Note: If you experience any challenge here with the error message: chmod: cannot access '/etc/wazuh-indexer/certs/*': No such file or directory
+
+You need to change file owner and use the commands below for that.
+* sudo sh -c 'chmod 400 /etc/wazuh-indexer/certs/*'
+* sudo chown -R wazuh-indexer:wazuh-indexer /etc/wazuh-indexer/certs - to set ownership to wazuh
+* sudo ls -la /etc/wazuh-indexer/certs/ - verify that ownership has changed from root to wazuh-indexer
+```
+<img width="1339" height="349" alt="image" src="https://github.com/user-attachments/assets/9c5d35f9-c6f1-4bf1-8170-84e64a58d2c6" />
+
+
+
